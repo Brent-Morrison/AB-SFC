@@ -334,3 +334,61 @@ mat1 <- as.matrix(df1)
 
 # Print the matrix
 print(mat1)
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+#
+# Market function
+# 
+# --------------------------------------------------------------------------------------------------------------------------
+
+prod <- matrix(c(1,2,3,10,12,8,rep(0,3),1,1.1,0.9), ncol = 4, dimnames = list(NULL, c("prod_no", "q", "qpost", "p")))
+prod[,"qpost"] <- prod[, "q"]
+cons <- matrix(c(1:6, c(4,4,3,6,1,3), rep(0, 12)), ncol = 4, dimnames = list(NULL, c("cons_no", "q", "p", "prod")))
+
+# Random selection of consumer for first sale
+s <- sample.int(6, size = 6)
+s <- c(3,4,1,5,2,6)
+which.min(prod[, "p"])
+
+# Index of lowest to highest prices where there is stock available
+p <- sort(prod[prod[, "qpost"] > 0, "p"],index.return = TRUE)$ix
+
+cons
+prod
+for (i in 1:2) { # nrow(cons)
+  
+  # Get the quantity required by consumer (s is random consumer sort) 
+  q_rqrd <- cons[cons[, "cons_no"] == s[i], "q"]
+  
+  # Index of minimum producer price, where the producer has remaining stock for sale 
+  pp <- which.min(prod[prod[, "q"] >= q_rqrd, "q"])
+  
+  # If the remaining stock of the producer is equal to or greater than that required by the consumer
+  # use that producer, else use that producer and the next cheapest producer
+  if ( q_rqrd <= prod[pp, "qpost"] ) {
+    
+  }
+  
+  
+  # Insert the price transacted AT & producer transacted WITH into "cons" matrix
+  cons[s[i], c("p", "prod")] <- c(prod[pp, "p"], pp)
+  
+  # Insert the quantity transacted at into "cons" matrix
+  prod[pp, "qpost"] <- prod[pp, "qpost"] - min(prod[pp, "qpost"], cons[s[i], "q"])
+  
+  print(cons)
+  print(prod)
+}
+
+crossprod(c(5,1), c(0.9,1)) / sum(c(5,1))
+
+prod_t <- prod[order(prod[, "p"]), ]
+
+q <- rep(NA, nrow(prod_t))
+q_rqrd <- 6
+for (i in 1:nrow(prod_t)) {
+  rem <- prod_t[i, "qpost"] - q_rqrd
+  q[i] <- min(prod_t[i, "qpost"], q_rqrd)
+  if( rem < 0 ) q_rqrd <- abs(rem) else q_rqrd <- 0
+}
