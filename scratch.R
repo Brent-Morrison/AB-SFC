@@ -384,11 +384,17 @@ for (i in 1:2) { # nrow(cons)
 crossprod(c(5,1), c(0.9,1)) / sum(c(5,1))
 
 prod_t <- prod[order(prod[, "p"]), ]
-
+prod_t
 q <- rep(NA, nrow(prod_t))
-q_rqrd <- 6
+q_rqrd <- 17
 for (i in 1:nrow(prod_t)) {
-  rem <- prod_t[i, "qpost"] - q_rqrd
-  q[i] <- min(prod_t[i, "qpost"], q_rqrd)
-  if( rem < 0 ) q_rqrd <- abs(rem) else q_rqrd <- 0
+  if(i == 1) {
+    q[i] <- min(q_rqrd, prod_t[i, "qpost"])
+  } else {
+    q[i] <- min(q_rqrd - sum(q[1:(i-1)]), prod_t[i, "qpost"])
+  }
+  #rem <- prod_t[i, "qpost"] - q_rqrd
+  #q[i] <- min(prod_t[i, "qpost"], q_rqrd)
+  #if( rem < 0 ) q_rqrd <- abs(rem) else q_rqrd <- 0
 }
+q
