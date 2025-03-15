@@ -342,52 +342,87 @@ print(mat1)
 # 
 # --------------------------------------------------------------------------------------------------------------------------
 
-prod <- matrix(c(1,2,3,10,12,8,rep(0,3),1,1.1,0.9), ncol = 4, dimnames = list(NULL, c("prod_no", "q", "qpost", "p")))
+nc <- 12  # Number of consumers
+np <- 4   # Number of producers
+r <- 5:15 # Range of individual consumer demand
+su <- 0.5 # Stock uplift, producer stock uplift over total consumer demand
+
+# Matrix of consumers
+cons <- matrix(
+  c(1:nc,                            # consumer id
+    sample(r, nc, replace = TRUE),   # quantity demanded (q)
+    rep(0, nc),                      # producer transacted with (prod) & price transacted at (p, initially nil)
+    sample(1:np, nc, replace = TRUE) # random initialisation of preferred producer
+    ), 
+  ncol = 4, 
+  dimnames = list(NULL, c("cons_id", "q", "p", "prod"))
+  )
+sum(cons[, "q"])
+
+# Expected demand per producer with stock uplift
+qpt <- mean(r)*nc/np*(1+su) 
+
+sample((qpt-5):(qpt+5), np, replace = TRUE)
+
+# Matrix of producers
+# - producer id
+prod <- matrix(
+  c(
+    1:np, 
+    sample((qpt-5):(qpt+5), np, replace = TRUE), 
+    rep(0, np),
+    runif(np, min = 0.85, max = 1.15)
+    ), 
+  ncol = 4, 
+  dimnames = list(NULL, c("prod_id", "q", "qpost", "p"))
+  )
 prod[,"qpost"] <- prod[, "q"]
-cons <- matrix(c(1:6, c(4,4,9,6,1,3), rep(0, 12)), ncol = 4, dimnames = list(NULL, c("cons_no", "q", "p", "prod")))
 
 # Random selection of consumer for first sale
-s <- sample.int(6, size = 6)
-s <- c(3,4,1,5,2,6)
+s <- sample(1:nc, size = nc, replace = FALSE)
 
 prod <- prod[order(prod[, "p"]), ]
 cons
 prod
+
+# For each consumer, determine which producer is matched to transact with 
 for (i in 1:nrow(cons)) {
   
-  # Get the quantity required by consumer (s is random consumer sort) 
-  q_rqrd <- cons[cons[, "cons_no"] == s[i], "q"]
+  # Get the quantity required by consumer i (s is random order of consumer id) 
+  q_rqrd <- cons[cons[, "cons_id"] == s[i], "q"]
   
   # If the remaining stock of the producer is equal to or greater than that required by the consumer
   # use that producer, else use that producer and the next cheapest producer
-  q <- rep(NA, nrow(prod))
+  # TO DO - functionality to model consumer loyalty to prior producer
+  q_trans <- rep(NA, nrow(prod))
   for (j in 1:nrow(prod)) {
     if(j == 1) {
-      q[j] <- min(q_rqrd, prod[j, "qpost"])
+      q_trans[j] <- min(q_rqrd, prod[j, "qpost"])
     } else {
-      q[j] <- min(q_rqrd - sum(q[1:(j-1)]), prod[j, "qpost"])
+      q_trans[j] <- min(q_rqrd - sum(q_trans[1:(j-1)]), prod[j, "qpost"])
     }
   }
   
-  # Update "qpost balance"
-  prod[, "qpost"] <- prod[, "qpost"] - q
+  # Update the "qpost" balance (the quantity of stock held by each producer)
+  prod[, "qpost"] <- prod[, "qpost"] - q_trans
   
   # Remove the original entry from the consumer matrix
-  cons <- cons[-which(cons[, "cons_no"] == s[i]),]
+  cons <- cons[-which(cons[, "cons_id"] == s[i]),]
   
   # Append the price transacted AT & producer transacted WITH into "cons" matrix
   cons <- rbind(
     cons, 
-    matrix( c(rep(s[i], length(q) ), q, prod[, "p"], prod[, "prod_no"] ), ncol = 4)
+    matrix( c(rep(s[i], length(q_trans) ), q_trans, prod[, "p"], prod[, "prod_id"] ), ncol = 4)
     )
   
   # Remove the nil balances
   cons <- cons[-which(cons[, "q"] == 0),]
-  
-  print(cons)
-  print(prod)
-}
 
+}
+cons <- cons[order(cons[, "cons_id"]), ]
+prod <- prod[order(prod[, "prod_id"]), ]
+cons
+prod
 
 # Check balances
 sum(cons[, "q"]) == (sum(prod[, "q"]) - sum(prod[, "qpost"]))
