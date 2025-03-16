@@ -314,10 +314,10 @@ print(mat)
 
 # Create the data frame
 df1 <- data.frame(
-  row.names = c("Consumption", "Wages", "Dole", "CG on inventories", "Investments", "Capital Amortization", 
-                "Taxes", "Dep. Interest", "Bonds Interest", "Loans Interest", "Advances Interest", "Profits", 
-                "CB profits", "Deposits", "Advances", "Reserves", "Gov. Bonds", "Loans"),
-  households_CA = c(-32971.4, 36800, 1280, 0, 0, 0, -7084.7, 200.3, 0, 0, 0, 2367.6, 0, -600.8, 0, 0, 0, 0),
+  row.names = c("consumption", "wages", "dole", "cg_inventory", "investments", "depreciation", 
+                "taxes", "dep_interest", "bond_nterest", "loan_nterest", "adv_interest", "profits", 
+                "cb_profit", "deposits", "advances", "reserves", "gov_bonds", "loans"),
+  households = c(-32971.4, 36800, 1280, 0, 0, 0, -7084.7, 200.3, 0, 0, 0, 2367.6, 0, -600.8, 0, 0, 0, 0),
   households_KA = c(32971.4, -25000, 0, 22.3, 0, -4974, -484.8, 62, 0, -388.5, 0, -2208.4, 0, 0, 0, 0, 0, 0),
   cons_firms_CA = c(0, 0, 0, -22.3, -5375, 4974, 0, 0, 0, 0, 0, 220.8, 0, -186.1, 0, 0, 0, 388.5),
   cons_firms_KA = c(0, -5000, 0, 3.7, 5375, 0, -68.7, 12.4, 0, -9.7, 0, -312.8, 0, 0, 0, 0, 0, 0),
@@ -325,7 +325,7 @@ df1 <- data.frame(
   cap_firms_KA = c(0, 0, 0, 0, 0, 0, -39.3, -274.7, 0, 398.2, 0, -179.1, 0, 0, 0, 0, 0, 0),
   banks_CA = c(0, 0, 0, 0, 0, 0, 0, 0, 95, 0, 0, 71.7, 0, 824.1, 0, -212.6, -284.9, -398.2),
   banks_KA = c(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 497.6, 0),
-  govt = c(0, -6800, -1280, 0, 0, 0, 7677.4, 0, -165.9, 0, 0, 0, 70.9, 0, 0, 0, 0, 0),
+  government = c(0, -6800, -1280, 0, 0, 0, 7677.4, 0, -165.9, 0, 0, 0, 70.9, 0, 0, 0, 0, 0),
   central_bank = c(0, 0, 0, 0, 0, 0, 0, 0, 70.9, 0, 0, 0, -70.9, 0, 0, 212.6, -212.6, 0)
 )
 
@@ -426,3 +426,39 @@ prod
 
 # Check balances
 sum(cons[, "q"]) == (sum(prod[, "q"]) - sum(prod[, "qpost"]))
+
+
+# --------------------------------------------------------------------------------------------------------------------------
+#
+# Australian data
+# 
+# --------------------------------------------------------------------------------------------------------------------------
+
+library(readxl)
+library(dplyr)
+library(tidyr)
+
+ana_tables <- read.csv("./data/abs_ana_tables.csv")
+
+# Index of required tables
+#which(ana_tables$table == )
+
+base_url <- "https://www.abs.gov.au/statistics/economy/national-accounts/australian-national-accounts-finance-and-wealth/"
+qtr <- "sep-2024/"
+file <- "5232006.xlsx"
+url <- paste0(base_url, qtr, file)
+
+temp <- tempfile() 
+download.file(url, temp, mode = "wb")
+sheets <- excel_sheets(path = temp)
+sheets
+s <- read_xlsx(path = temp, sheet = "Data1", range = cell_limits(c(10, 1), c(NA, NA)))
+s <- s %>% 
+  rename(date = `Series ID`) %>% 
+  pivot_longer(!date, names_to = "series_id", values_to = "billions") %>% 
+  select(series_id, date, billions) %>% 
+  arrange(series_id, date)
+i <- read_xlsx(path = temp, sheet = "Index", col_names = FALSE, range = cell_limits(c(12, 1), c(NA, NA)))
+names(i) <- c("data_item", "na1", "na2", "series_type", "series_id", "start", "end", "n_obs", "unit", "data_type", "frequency", "collection_month")
+i <- subset(i, select = -c(na1, na2))
+i <- i %>% separate(data_item, sep = ";", into = c("stock_flow","balance_type", "instrument","counterparty"))
