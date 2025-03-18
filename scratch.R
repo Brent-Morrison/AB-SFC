@@ -431,6 +431,8 @@ sum(cons[, "q"]) == (sum(prod[, "q"]) - sum(prod[, "qpost"]))
 # --------------------------------------------------------------------------------------------------------------------------
 #
 # Australian data
+# https://www.abs.gov.au/statistics/economy/national-accounts/australian-national-accounts-finance-and-wealth/
+# https://www.abs.gov.au/ausstats/abs@.nsf/0/7b54bcb1c8f409ebca25768400828278/$FILE/P5204_2009_Time_Series_Workbook_Listing.xls
 # 
 # --------------------------------------------------------------------------------------------------------------------------
 
@@ -439,21 +441,68 @@ library(dplyr)
 library(tidyr)
 
 ana_tables <- read.csv("./data/abs_ana_tables.csv")
+files <- ana_tables[grep("Financial Assets and Liabilities|Balance Sheet", ana_tables$table), "file_no"]
 
 # Index of required tables
 #which(ana_tables$table == )
 
 base_url <- "https://www.abs.gov.au/statistics/economy/national-accounts/australian-national-accounts-finance-and-wealth/"
 qtr <- "sep-2024/"
-file <- "5232006.xlsx"
-url <- paste0(base_url, qtr, file)
+#file <- "5232004.xlsx"
 
+dat_list <- list()
+for (f in files[1:5]) {
+  print(f)
+  url <- paste0(base_url, qtr, f)
+  temp <- tempfile() 
+  download.file(url, temp, mode = "wb")
+  sheets <- excel_sheets(path = temp)
+  
+  # Account for files with multiple tabs
+  d_list <- list()
+  for (j in sheets[grep("Data", sheets)]) {
+    print(j)
+    # Data
+    d <- read_xlsx(path = temp, sheet = j, range = cell_limits(ul = c(10, 1), lr = c(NA, NA)))
+    d <- d %>% 
+      rename(date = `Series ID`) %>% 
+      pivot_longer(!date, names_to = "series_id", values_to = "amount") %>% 
+      select(series_id, date, amount) %>% 
+      arrange(series_id, date)
+    d_list[[j]] <- d
+  }
+  dat1 <- bind_rows(d_list)
+  dat_list[[f]] <- dat1
+}
+dat <- bind_rows(dat_list)
+
+
+
+
+url <- paste0(base_url, qtr, file)
 temp <- tempfile() 
 download.file(url, temp, mode = "wb")
 sheets <- excel_sheets(path = temp)
 sheets
-s <- read_xlsx(path = temp, sheet = "Data1", range = cell_limits(c(10, 1), c(NA, NA)))
-s <- s %>% 
+
+# Account for files with multiple tabs
+d_list <- list()
+for (j in sheets[grep("Data", sheets)]) {
+  print(j)
+  # Data
+  d <- read_xlsx(path = temp, sheet = j, range = cell_limits(ul = c(10, 1), lr = c(NA, NA), sheet = j))
+  d <- d %>% 
+    rename(date = `Series ID`) %>% 
+    pivot_longer(!date, names_to = "series_id", values_to = "amount") %>% 
+    select(series_id, date, amount) %>% 
+    arrange(series_id, date)
+  d_list[[j]] <- d
+}
+dat <- bind_rows(d_list)
+
+# Data
+d <- read_xlsx(path = temp, sheet = "Data1", range = cell_limits(c(10, 1), c(NA, NA)))
+d <- d %>% 
   rename(date = `Series ID`) %>% 
   pivot_longer(!date, names_to = "series_id", values_to = "billions") %>% 
   select(series_id, date, billions) %>% 
