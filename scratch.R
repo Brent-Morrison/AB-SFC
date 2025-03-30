@@ -447,11 +447,12 @@ files <- ana_tables[grep("Financial Assets and Liabilities|Balance Sheet", ana_t
 #which(ana_tables$table == )
 
 base_url <- "https://www.abs.gov.au/statistics/economy/national-accounts/australian-national-accounts-finance-and-wealth/"
-qtr <- "sep-2024/"
+qtr <- "dec-2024/"
 #file <- "5232004.xlsx"
 
-dat_list <- list()
-for (f in files[1:5]) {
+dat_list <- list()  # data
+ind_list <- list()  # index
+for (f in files) {
   print(f)
   url <- paste0(base_url, qtr, f)
   temp <- tempfile() 
@@ -473,41 +474,20 @@ for (f in files[1:5]) {
   }
   dat1 <- bind_rows(d_list)
   dat_list[[f]] <- dat1
+  
+  # Index
+  ind1 <- read_xlsx(path = temp, sheet = "Index", col_names = FALSE, range = cell_limits(c(12, 1), c(NA, NA)))
+  names(ind1) <- c("data_item", "na1", "na2", "series_type", "series_id", "start", "end", "n_obs", "unit", "data_type", "frequency", "collection_month")
+  ind1 <- subset(ind1, select = -c(na1, na2))
+  ind1 <- ind1 %>% 
+    filter(!is.na(series_type)) %>% 
+    separate(data_item, sep = ";", into = c("stock_flow","balance_type","instrument","counterparty"))
+  ind1$file_no <- f
+  ind_list[[f]] <- ind1
+  
 }
 dat <- bind_rows(dat_list)
+ind <- bind_rows(ind_list)
 
-
-
-
-url <- paste0(base_url, qtr, file)
-temp <- tempfile() 
-download.file(url, temp, mode = "wb")
-sheets <- excel_sheets(path = temp)
-sheets
-
-# Account for files with multiple tabs
-d_list <- list()
-for (j in sheets[grep("Data", sheets)]) {
-  print(j)
-  # Data
-  d <- read_xlsx(path = temp, sheet = j, range = cell_limits(ul = c(10, 1), lr = c(NA, NA), sheet = j))
-  d <- d %>% 
-    rename(date = `Series ID`) %>% 
-    pivot_longer(!date, names_to = "series_id", values_to = "amount") %>% 
-    select(series_id, date, amount) %>% 
-    arrange(series_id, date)
-  d_list[[j]] <- d
-}
-dat <- bind_rows(d_list)
-
-# Data
-d <- read_xlsx(path = temp, sheet = "Data1", range = cell_limits(c(10, 1), c(NA, NA)))
-d <- d %>% 
-  rename(date = `Series ID`) %>% 
-  pivot_longer(!date, names_to = "series_id", values_to = "billions") %>% 
-  select(series_id, date, billions) %>% 
-  arrange(series_id, date)
-i <- read_xlsx(path = temp, sheet = "Index", col_names = FALSE, range = cell_limits(c(12, 1), c(NA, NA)))
-names(i) <- c("data_item", "na1", "na2", "series_type", "series_id", "start", "end", "n_obs", "unit", "data_type", "frequency", "collection_month")
-i <- subset(i, select = -c(na1, na2))
-i <- i %>% separate(data_item, sep = ";", into = c("stock_flow","balance_type", "instrument","counterparty"))
+write.csv(dat, "./data/ana_data.csv")
+write.csv(ind, "./data/ana_index.csv")
