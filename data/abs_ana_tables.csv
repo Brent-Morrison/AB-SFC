@@ -1,55 +1,55 @@
-﻿table,file_no
-TABLE 1. Credit Market Outstandings ($ million),5232001.xlsx
-TABLE 2. Demand for Credit ($ million),5232002.xlsx
-"TABLE 3. National Capital Account, Current prices ($ million)",5232003.xlsx
-TABLE 4. National Financial Assets and Liabilities ($ million),5232004.xlsx
-"TABLE 5. Non-Financial Corporations Capital Account, Current prices ($ million)",5232005.xlsx
-TABLE 6. Financial Assets and Liabilities of Non-Financial Corporations ($ million),5232006.xlsx
-"TABLE 7. Private Non-Financial Corporations Capital Account, Current prices ($ million)",5232007.xlsx
-TABLE 8. Financial Assets and Liabilities of Private Non-Financial Corporations ($ million),5232008.xlsx
-TABLE 9. Financial Assets and Liabilities of Private Non-Financial Investment Funds ($ million),5232009.xlsx
-TABLE 10. Financial Assets and Liabilities of Other Private Non-Financial Corporations ($ million),5232010.xlsx
-"TABLE 11. Public Non-Financial Corporations Capital Account, Current prices ($ million)",5232011.xlsx
-TABLE 12. Financial Assets and Liabilities of Public Non-Financial Corporations ($ million),5232012.xlsx
-"TABLE 13. Financial Corporations Capital Account, Current prices ($ million)",5232013.xlsx
-TABLE 14. Financial Assets and Liabilities of Financial Corporations ($ million),5232014.xlsx
-TABLE 15. Financial Assets and Liabilities of the Central Bank ($ million),5232015.xlsx
-TABLE 16. Financial Assets and Liabilities of Authorised Deposit taking Institutions ($ million),5232016.xlsx
-TABLE 17. Financial Assets and Liabilities of Other Broad Money Institutions ($ million),5232017.xlsx
-TABLE 18. Financial Assets and Liabilities of Pension Funds ($ million),5232018.xlsx
-TABLE 19. Pension Funds - Self-Managed Superannuation Funds Balance Sheet ($ million),5232019.xlsx
-TABLE 20. Financial Assets and Liabilities of Life Insurance Corporations ($ million),5232020.xlsx
-TABLE 21. Financial Assets and Liabilities of Non-Life Insurance Corporations ($ million),5232021.xlsx
-TABLE 22. Financial Assets and Liabilities of Money Market Financial Investment Funds ($ million),5232022.xlsx
-TABLE 23. Financial Assets and Liabilities of Non-Money Market Financial Investment Funds ($ million),5232023.xlsx
-TABLE 24. Financial Assets and Liabilities of Central Borrowing Authorities ($ million),5232024.xlsx
-TABLE 25. Financial Assets and Liabilities of Securitisers ($ million),5232025.xlsx
-TABLE 26. Financial Assets and Liabilities of Other Financial Corporations ($ million),5232026.xlsx
-"TABLE 27. General Government Capital Account, Current prices ($ million)",5232027.xlsx
-TABLE 28. Financial Assets and Liabilities of General Government ($ million),5232028.xlsx
-"TABLE 29. National General Government Capital Account, Current prices ($ million)",5232029.xlsx
-TABLE 30. Financial Assets and Liabilities of National General Government ($ million),5232030.xlsx
-"TABLE 31. State and Local General Government Capital Account, Current prices ($ million)",5232031.xlsx
-TABLE 32. Financial Assets and Liabilities of State and Local General Government ($ million),5232032.xlsx
-"TABLE 33. Household Capital Account, Current prices ($ million)",5232033.xlsx
-TABLE 34. Financial Assets and Liabilities of Households ($ million),5232034.xlsx
-"TABLE 35. Household Balance Sheet, Current prices ($ billion)",5232035.xlsx
-"TABLE 36. Analytical Measures of Household Income, Consumption, Saving and Wealth, Current prices ($ billion)",5232036.xlsx
-"TABLE 37. Rest of World Capital Account, Current prices ($ million)",5232037.xlsx
-TABLE 38. Financial Assets and Liabilities of Rest of World ($ million),5232038.xlsx
-TABLE 39. The Currency Market ($ million),5232039.xlsx
-TABLE 40. The Transferable Deposits Market ($ million),5232040.xlsx
-TABLE 41. The Other Deposits Market ($ million),5232041.xlsx
-TABLE 42. The Bills of Exchange Market ($ million),5232042.xlsx
-TABLE 43. The One Name Paper Market ($ million),5232043.xlsx
-TABLE 44. The Bonds Market ($ million),5232044.xlsx
-TABLE 45. The Derivatives and Employee Stock Options Market ($ million),5232045.xlsx
-TABLE 46. The Short Term Loans and Placements Market ($ million),5232046.xlsx
-TABLE 47. The Long Term Loans and Placements Market ($ million),5232047.xlsx
-TABLE 48. The Listed Shares and Other Equity Market ($ million),5232048.xlsx
-TABLE 49. The Unlisted Shares and Other Equity Market ($ million),5232049.xlsx
-TABLE 50. Accounts Payable/Receivable ($ million),5232050.xlsx
-TABLE 51. Financial Accounts Summary of Authorised Deposit taking Institution Deposits and Lending Split by Household Subsectors ($ million),5232051.xlsx
-TABLE 52. Financial Accounts Summary of Loan Outstandings to Households for Housing by Type of Lending Institution ($ million),5232052.xlsx
-TABLE 53. Nominal Value of Short Term Loans and Placements Market ($ million),5232053.xlsx
-TABLE 54. Nominal Value of Long Term Loans and Placements Market ($ million),5232054.xlsx
+﻿table,sub_sector,sector,file_no
+TABLE 1. Credit Market Outstandings ($ million),na,na,5232001.xlsx
+TABLE 2. Demand for Credit ($ million),na,na,5232002.xlsx
+"TABLE 3. National Capital Account, Current prices ($ million)",na,na,5232003.xlsx
+TABLE 4. National Financial Assets and Liabilities ($ million),na,na,5232004.xlsx
+"TABLE 5. Non-Financial Corporations Capital Account, Current prices ($ million)",na,na,5232005.xlsx
+TABLE 6. Financial Assets and Liabilities of Non-Financial Corporations ($ million),non_fin_corp,non_fin_corp,5232006.xlsx
+"TABLE 7. Private Non-Financial Corporations Capital Account, Current prices ($ million)",na,na,5232007.xlsx
+TABLE 8. Financial Assets and Liabilities of Private Non-Financial Corporations ($ million),priv_non_fin_corp,non_fin_corp,5232008.xlsx
+TABLE 9. Financial Assets and Liabilities of Private Non-Financial Investment Funds ($ million),priv_non_fin_inv,non_fin_corp,5232009.xlsx
+TABLE 10. Financial Assets and Liabilities of Other Private Non-Financial Corporations ($ million),oth_priv_non_fin_corp,non_fin_corp,5232010.xlsx
+"TABLE 11. Public Non-Financial Corporations Capital Account, Current prices ($ million)",na,na,5232011.xlsx
+TABLE 12. Financial Assets and Liabilities of Public Non-Financial Corporations ($ million),pub_non_fin_corp,non_fin_corp,5232012.xlsx
+"TABLE 13. Financial Corporations Capital Account, Current prices ($ million)",na,na,5232013.xlsx
+TABLE 14. Financial Assets and Liabilities of Financial Corporations ($ million),fin_corp,fin_corp,5232014.xlsx
+TABLE 15. Financial Assets and Liabilities of the Central Bank ($ million),central_bank,fin_corp,5232015.xlsx
+TABLE 16. Financial Assets and Liabilities of Authorised Deposit taking Institutions ($ million),auth_dep_inst,fin_corp,5232016.xlsx
+TABLE 17. Financial Assets and Liabilities of Other Broad Money Institutions ($ million),broad_money_inst,fin_corp,5232017.xlsx
+TABLE 18. Financial Assets and Liabilities of Pension Funds ($ million),pens_fund,fin_corp,5232018.xlsx
+TABLE 19. Pension Funds - Self-Managed Superannuation Funds Balance Sheet ($ million),na,na,5232019.xlsx
+TABLE 20. Financial Assets and Liabilities of Life Insurance Corporations ($ million),life_ins_corp,fin_corp,5232020.xlsx
+TABLE 21. Financial Assets and Liabilities of Non-Life Insurance Corporations ($ million),non_life_ins_corp,fin_corp,5232021.xlsx
+TABLE 22. Financial Assets and Liabilities of Money Market Financial Investment Funds ($ million),mm_fin_inv_fund,fin_corp,5232022.xlsx
+TABLE 23. Financial Assets and Liabilities of Non-Money Market Financial Investment Funds ($ million),non_mm_fin_inv_fund,fin_corp,5232023.xlsx
+TABLE 24. Financial Assets and Liabilities of Central Borrowing Authorities ($ million),cent_borr_auth,fin_corp,5232024.xlsx
+TABLE 25. Financial Assets and Liabilities of Securitisers ($ million),securitiser,fin_corp,5232025.xlsx
+TABLE 26. Financial Assets and Liabilities of Other Financial Corporations ($ million),other_fin_corp,fin_corp,5232026.xlsx
+"TABLE 27. General Government Capital Account, Current prices ($ million)",na,na,5232027.xlsx
+TABLE 28. Financial Assets and Liabilities of General Government ($ million),gen_gov,gen_gov,5232028.xlsx
+"TABLE 29. National General Government Capital Account, Current prices ($ million)",na,na,5232029.xlsx
+TABLE 30. Financial Assets and Liabilities of National General Government ($ million),nat_gen_gov,gen_gov,5232030.xlsx
+"TABLE 31. State and Local General Government Capital Account, Current prices ($ million)",na,na,5232031.xlsx
+TABLE 32. Financial Assets and Liabilities of State and Local General Government ($ million),state_gen_gov,gen_gov,5232032.xlsx
+"TABLE 33. Household Capital Account, Current prices ($ million)",na,na,5232033.xlsx
+TABLE 34. Financial Assets and Liabilities of Households ($ million),household,household,5232034.xlsx
+"TABLE 35. Household Balance Sheet, Current prices ($ billion)",na,na,5232035.xlsx
+"TABLE 36. Analytical Measures of Household Income, Consumption, Saving and Wealth, Current prices ($ billion)",na,na,5232036.xlsx
+"TABLE 37. Rest of World Capital Account, Current prices ($ million)",na,na,5232037.xlsx
+TABLE 38. Financial Assets and Liabilities of Rest of World ($ million),row,row,5232038.xlsx
+TABLE 39. The Currency Market ($ million),na,na,5232039.xlsx
+TABLE 40. The Transferable Deposits Market ($ million),na,na,5232040.xlsx
+TABLE 41. The Other Deposits Market ($ million),na,na,5232041.xlsx
+TABLE 42. The Bills of Exchange Market ($ million),na,na,5232042.xlsx
+TABLE 43. The One Name Paper Market ($ million),na,na,5232043.xlsx
+TABLE 44. The Bonds Market ($ million),na,na,5232044.xlsx
+TABLE 45. The Derivatives and Employee Stock Options Market ($ million),na,na,5232045.xlsx
+TABLE 46. The Short Term Loans and Placements Market ($ million),na,na,5232046.xlsx
+TABLE 47. The Long Term Loans and Placements Market ($ million),na,na,5232047.xlsx
+TABLE 48. The Listed Shares and Other Equity Market ($ million),na,na,5232048.xlsx
+TABLE 49. The Unlisted Shares and Other Equity Market ($ million),na,na,5232049.xlsx
+TABLE 50. Accounts Payable/Receivable ($ million),na,na,5232050.xlsx
+TABLE 51. Financial Accounts Summary of Authorised Deposit taking Institution Deposits and Lending Split by Household Subsectors ($ million),na,na,5232051.xlsx
+TABLE 52. Financial Accounts Summary of Loan Outstandings to Households for Housing by Type of Lending Institution ($ million),na,na,5232052.xlsx
+TABLE 53. Nominal Value of Short Term Loans and Placements Market ($ million),na,na,5232053.xlsx
+TABLE 54. Nominal Value of Long Term Loans and Placements Market ($ million),na,na,5232054.xlsx

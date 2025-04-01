@@ -432,6 +432,7 @@ sum(cons[, "q"]) == (sum(prod[, "q"]) - sum(prod[, "qpost"]))
 #
 # Australian data
 # https://www.abs.gov.au/statistics/economy/national-accounts/australian-national-accounts-finance-and-wealth/
+# https://www.abs.gov.au/statistics/classifications/standard-economic-sector-classifications-australia-sesca/latest-release
 # https://www.abs.gov.au/ausstats/abs@.nsf/0/7b54bcb1c8f409ebca25768400828278/$FILE/P5204_2009_Time_Series_Workbook_Listing.xls
 # 
 # --------------------------------------------------------------------------------------------------------------------------
@@ -490,4 +491,54 @@ dat <- bind_rows(dat_list)
 ind <- bind_rows(ind_list)
 
 write.csv(dat, "./data/ana_data.csv")
+write.csv(dat[dat$date == "2024-12-01",], "./data/ana_data24.csv")
 write.csv(ind, "./data/ana_index.csv")
+
+
+dat <- read.csv("./data/ana_data.csv")
+ind <- read.csv("./data/ana_index.csv")
+ana_tables <- read.csv("./data/abs_ana_tables.csv")
+
+d <- dat %>% 
+  left_join(ind, by = join_by(series_id)) %>% 
+  left_join(ana_tables, by = join_by(file_no)) %>% 
+  select(series_id:counterparty, data_type, file_no:sector) 
+
+d1 <- d %>%
+  filter(
+    balance_type %in% c("Assets", "Liabilities"),
+    sector == "household",
+    data_type == "STOCK_CLOSE",
+    counterparty != "Total (Counterparty sectors)",
+    date == "2024-12-01"
+  ) %>% 
+  mutate(amount = if_else(balance_type == "Assets", amount, -amount)) %>% 
+  select(balance_type, instrument, counterparty, amount) %>% 
+  pivot_wider(names_from = counterparty, values_from = amount) %>% 
+  arrange(balance_type)
+
+d2 <- d %>%
+  filter(
+    balance_type %in% c("Assets", "Liabilities"),
+    sub_sector == "auth_dep_inst",
+    data_type == "STOCK_CLOSE",
+    counterparty != "Total (Counterparty sectors)",
+    date == "2024-12-01"
+  ) %>% 
+  mutate(amount = if_else(balance_type == "Assets", amount, -amount)) %>% 
+  select(balance_type, instrument, counterparty, amount) %>% 
+  pivot_wider(names_from = counterparty, values_from = amount) %>% 
+  arrange(balance_type)
+
+d3 <- d %>%
+  filter(
+    balance_type %in% c("Assets", "Liabilities"),
+    sub_sector == "central_bank",
+    data_type == "STOCK_CLOSE",
+    counterparty != "Total (Counterparty sectors)",
+    date == "2024-12-01"
+  ) %>% 
+  mutate(amount = if_else(balance_type == "Assets", amount, -amount)) %>% 
+  select(balance_type, instrument, counterparty, amount) %>% 
+  pivot_wider(names_from = counterparty, values_from = amount) %>% 
+  arrange(balance_type)
