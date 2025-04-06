@@ -1,0 +1,66 @@
+,balance_type,instrument,instrument_clean
+1,Assets,Acceptance of bills of exchange drawn by:,Bills of exchange
+2,Assets,Bills of exchange,Bills of exchange
+3,Assets,Bonds etc.,Bonds
+4,Assets,"Bonds, etc. issued by:",Bonds
+5,Assets,Currency,Currency
+6,Assets,Currency accepted by:,Currency
+7,Assets,Deposits,Deposits
+8,Assets,Deposits accepted by:,Deposits
+9,Assets,Derivatives,Derivatives
+10,Assets,Derivatives issued by:,Derivatives
+11,Assets,Holdings of bills of exchange accepted by:,Bills of exchange
+12,Assets,Insurance technical reserves,Insurance technical reserves
+13,Assets,Loans and placements borrowed by:,Loans and placements
+14,Assets,Long term loans and placements,Loans and placements
+15,Assets,Monetary gold and SDRs,Monetary gold and SDRs
+16,Assets,Monetary gold and SDRs accepted by:,Monetary gold and SDRs
+17,Assets,Net equity in reserves,Net equity in reserves
+18,Assets,Net equity of pension funds in life office reserves,Net equity of pension funds in life office reserves
+19,Assets,Non-financial assets - other,Non-financial assets - other
+20,Assets,Non-financial assets - property,Non-financial assets - property
+21,Assets,One name paper,One name paper
+22,Assets,One name paper issued by:,One name paper
+23,Assets,Other accounts receivable,Other accounts receivable
+24,Assets,Prepayments of premiums and reserves against outstanding claims,Prepayments of premiums and reserves against outstanding claims
+25,Assets,Shares and other equity issued by:,Shares and other equity
+26,Assets,Short term loans and placements,Loans and placements
+27,Assets,Total assets,Total assets
+28,Assets,Total financial assets,Total financial assets
+29,Assets,Unfunded superannuation claims,Unfunded superannuation claims
+30,Assets,Unlisted shares and other equity,Unlisted shares and other equity
+31,Liabilities,Acceptance of bills of exchange,Bills of exchange
+32,Liabilities,Acceptance of bills of exchange drawn by:,Bills of exchange
+33,Liabilities,Bills of exchange,Bills of exchange
+34,Liabilities,Bonds etc.,Bonds
+35,Liabilities,"Bonds, etc. issued in Australia held by:",Bonds
+36,Liabilities,"Bonds, etc. issued offshore held by:",Bonds
+37,Liabilities,Currency held by:,Currency
+38,Liabilities,Deposits,Deposits
+39,Liabilities,Deposits held by:,Deposits
+40,Liabilities,Derivatives,Derivatives
+41,Liabilities,Derivatives held by:,Derivatives
+42,Liabilities,Derivatives issued by:,Derivatives
+43,Liabilities,Drawings of bills of exchange accepted by:,Bills of exchange
+44,Liabilities,Insurance technical reserves,Insurance technical reserves
+45,Liabilities,Listed shares and other equity,Listed shares and other equity
+46,Liabilities,Listed shares and other equity held by:,Listed shares and other equity
+47,Liabilities,Long term loans and placements,Loans and placements
+48,Liabilities,Long term loans and placements held by:,Loans and placements
+49,Liabilities,Monetary gold and SDRs,Monetary gold and SDRs
+50,Liabilities,Monetary gold and SDRs held by:,Monetary gold and SDRs
+51,Liabilities,Net equity in reserves held by:,Net equity in reserves
+52,Liabilities,Net equity of pension funds in life offices held by:,Net equity of pension funds in life offices
+53,Liabilities,One name paper,One name paper
+54,Liabilities,One name paper issued in Australia held by:,One name paper issued in Australia
+55,Liabilities,One name paper issued offshore held by:,One name paper issued offshore
+56,Liabilities,Other accounts payable,Other accounts payable
+57,Liabilities,Prepayments of premiums and reserves against outstanding claims held by:,Prepayments of premiums and reserves against outstanding claims
+58,Liabilities,Short term loans and placements,Loans and placements
+59,Liabilities,Short term loans and placements held by:,Loans and placements
+60,Liabilities,Total financial liabilities,Total financial liabilities
+61,Liabilities,Total liabilities,Total liabilities
+62,Liabilities,Unfunded superannuation claims,Unfunded superannuation claims
+63,Liabilities,Unfunded superannuation claims held by:,Unfunded superannuation claims
+64,Liabilities,Unlisted shares and other equity,Unlisted shares and other equity
+65,Liabilities,Unlisted shares and other equity held by:,Unlisted shares and other equity

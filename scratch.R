@@ -428,6 +428,8 @@ prod
 sum(cons[, "q"]) == (sum(prod[, "q"]) - sum(prod[, "qpost"]))
 
 
+
+
 # --------------------------------------------------------------------------------------------------------------------------
 #
 # Australian data
@@ -444,13 +446,13 @@ library(tidyr)
 ana_tables <- read.csv("./data/abs_ana_tables.csv")
 files <- ana_tables[grep("Financial Assets and Liabilities|Balance Sheet", ana_tables$table), "file_no"]
 
-# Index of required tables
-#which(ana_tables$table == )
 
+# Index of required tables
 base_url <- "https://www.abs.gov.au/statistics/economy/national-accounts/australian-national-accounts-finance-and-wealth/"
 qtr <- "dec-2024/"
-#file <- "5232004.xlsx"
 
+
+# Gather ABS data
 dat_list <- list()  # data
 ind_list <- list()  # index
 for (f in files) {
@@ -495,14 +497,22 @@ write.csv(dat[dat$date == "2024-12-01",], "./data/ana_data24.csv")
 write.csv(ind, "./data/ana_index.csv")
 
 
+
+# Read data 
 dat <- read.csv("./data/ana_data.csv")
 ind <- read.csv("./data/ana_index.csv")
 ana_tables <- read.csv("./data/abs_ana_tables.csv")
 
+# Unique instruments / standardise name across counterparty
+u_inst <- unique(d$instrument)
+rem <- " borrowed by:| held by:| accepted by:| issued by:| drawn by:"
+gsub(rem, "",u_inst)
+
 d <- dat %>% 
   left_join(ind, by = join_by(series_id)) %>% 
   left_join(ana_tables, by = join_by(file_no)) %>% 
-  select(series_id:counterparty, data_type, file_no:sector) 
+  select(series_id:counterparty, data_type, file_no:sector) %>% 
+  mutate(instrument_clean = gsub(rem, "", instrument))
 
 d1 <- d %>%
   filter(
