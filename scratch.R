@@ -492,9 +492,18 @@ for (f in files) {
 dat <- bind_rows(dat_list)
 ind <- bind_rows(ind_list)
 
+rem <- " borrowed by:| held by:| accepted by:| issued by:| drawn by:"
+inst <- ind %>% 
+  filter(balance_type %in% c("Assets", "Liabilities")) %>% 
+  group_by(balance_type, instrument) %>% 
+  summarise(n = n()) %>% 
+  mutate(instrument_clean = gsub(rem, "", instrument))
+  
+
 write.csv(dat, "./data/ana_data.csv")
 write.csv(dat[dat$date == "2024-12-01",], "./data/ana_data24.csv")
 write.csv(ind, "./data/ana_index.csv")
+write.csv(inst, "./data/ana_instruments.csv")
 
 
 
@@ -503,16 +512,16 @@ dat <- read.csv("./data/ana_data.csv")
 ind <- read.csv("./data/ana_index.csv")
 ana_tables <- read.csv("./data/abs_ana_tables.csv")
 
-# Unique instruments / standardise name across counterparty
-u_inst <- unique(d$instrument)
-rem <- " borrowed by:| held by:| accepted by:| issued by:| drawn by:"
-gsub(rem, "",u_inst)
 
 d <- dat %>% 
   left_join(ind, by = join_by(series_id)) %>% 
   left_join(ana_tables, by = join_by(file_no)) %>% 
   select(series_id:counterparty, data_type, file_no:sector) %>% 
   mutate(instrument_clean = gsub(rem, "", instrument))
+
+# Unique instruments / standardise name across counterparty
+inst_a <- sort(unique(d$instrument_clean[d$balance_type == "Assets"], ))
+inst_l <- sort(unique(d$instrument_clean[d$balance_type == "Liabilities"], ))
 
 d1 <- d %>%
   filter(
@@ -523,7 +532,7 @@ d1 <- d %>%
     date == "2024-12-01"
   ) %>% 
   mutate(amount = if_else(balance_type == "Assets", amount, -amount)) %>% 
-  select(balance_type, instrument, counterparty, amount) %>% 
+  select(balance_type, instrument_clean, counterparty, amount) %>% 
   pivot_wider(names_from = counterparty, values_from = amount) %>% 
   arrange(balance_type)
 
@@ -536,7 +545,7 @@ d2 <- d %>%
     date == "2024-12-01"
   ) %>% 
   mutate(amount = if_else(balance_type == "Assets", amount, -amount)) %>% 
-  select(balance_type, instrument, counterparty, amount) %>% 
+  select(balance_type, instrument_clean, counterparty, amount) %>% 
   pivot_wider(names_from = counterparty, values_from = amount) %>% 
   arrange(balance_type)
 
@@ -549,6 +558,6 @@ d3 <- d %>%
     date == "2024-12-01"
   ) %>% 
   mutate(amount = if_else(balance_type == "Assets", amount, -amount)) %>% 
-  select(balance_type, instrument, counterparty, amount) %>% 
+  select(balance_type, instrument_clean, counterparty, amount) %>% 
   pivot_wider(names_from = counterparty, values_from = amount) %>% 
   arrange(balance_type)
