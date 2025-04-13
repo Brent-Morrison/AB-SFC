@@ -1,0 +1,103 @@
+lookup_ref,ref1,ref2,ref3,ref4
+cp_ss,sub_sector,counterparty,,
+cp_ss,auth_dep_inst,Authorised deposit taking Institutions,,
+cp_ss,central_bank,Central bank,,
+cp_ss,cent_borr_auth,Central borrowing authorities,,
+cp_ss,household,Households,,
+cp_ss,life_ins_corp,Life insurance corporations,,
+cp_ss,mm_fin_inv_fund,Money market financial investment funds,,
+cp_ss,nat_gen_gov,National general government,,
+cp_ss,non_life_ins_corp,Non-life insurance corporations,,
+cp_ss,non_mm_fin_inv_fund,Non-money market financial investment funds,,
+cp_ss,broad_money_inst,Other broad money Institutions,,
+cp_ss,other_fin_corp,Other financial corporations,,
+cp_ss,oth_priv_non_fin_corp,Other private non-financial corporations,,
+cp_ss,pens_fund,Pension funds,,
+cp_ss,priv_non_fin_inv,Private non-financial investment funds,,
+cp_ss,pub_non_fin_corp,Public non-financial corporations,,
+cp_ss,row,Rest of world,,
+cp_ss,securitiser,Securitisers,,
+cp_ss,state_gen_gov,State and local general government,,
+instrument,Acceptance of bills of exchange,Bills of exchange,,
+instrument,Bills of exchange,Bills of exchange,,
+instrument,Bonds etc.,Bonds,,
+instrument,"Bonds, etc.",Bonds,,
+instrument,"Bonds, etc. issued in Australia",Bonds,,
+instrument,"Bonds, etc. issued offshore",Bonds,,
+instrument,Currency,Currency,,
+instrument,Deposits,Deposits,,
+instrument,Derivatives,Derivatives,,
+instrument,Drawings of bills of exchange,Bills of exchange,,
+instrument,Holdings of bills of exchange,Bills of exchange,,
+instrument,Insurance technical reserves,Insurance technical reserves,,
+instrument,Listed shares and other equity,Shares and other equity,,
+instrument,Loans and placements,Loans and placements,,
+instrument,Long term loans and placements,Loans and placements,,
+instrument,Monetary gold and SDRs,Monetary gold and SDRs,,
+instrument,Net equity in reserves,Net equity in reserves,,
+instrument,Net equity of pension funds in life office reserves,Net equity of pension funds,,
+instrument,Net equity of pension funds in life offices,Net equity of pension funds,,
+instrument,Non-financial assets - other,Non-financial assets - other,,
+instrument,Non-financial assets - property,Non-financial assets - property,,
+instrument,One name paper,One name paper,,
+instrument,One name paper issued in Australia,One name paper,,
+instrument,One name paper issued offshore,One name paper,,
+instrument,Other accounts payable,Accounts pay / rec,,
+instrument,Other accounts receivable,Accounts pay / rec,,
+instrument,Prepayments of premiums and reserves against outstanding claims,Prepayments of premiums and reserves,,
+instrument,Shares and other equity,Shares and other equity,,
+instrument,Short term loans and placements,Loans and placements,,
+instrument,Total (Counterparty sectors),Total (Counterparty sectors),,
+instrument,Total assets,Total assets,,
+instrument,Total financial assets,Total financial assets,,
+instrument,Total financial liabilities,Total financial liabilities,,
+instrument,Total liabilities,Total liabilities,,
+instrument,Unfunded superannuation claims,Unfunded superannuation claims,,
+instrument,Unlisted shares and other equity,Shares and other equity,,
+sisca,1,Non-Financial Corporations,1,
+sisca,10,Non-Financial Corporations,2,
+sisca,100,Non-Financial Corporations,3,
+sisca,1001,Non-Financial Investment Funds,4,TABLE 9. Financial Assets and Liabilities of Private Non-Financial Investment Funds ($ million)
+sisca,1009,Other Non-Financial Corporations,4,TABLE 10. Financial Assets and Liabilities of Other Private Non-Financial Corporations ($ million)
+sisca,1009,Other Non-Financial Corporations,4,TABLE 12. Financial Assets and Liabilities of Public Non-Financial Corporations ($ million)
+sisca,2,Financial Corporations,1,
+sisca,21,Financial Intermediaries,2,
+sisca,211,Reserve Bank of Australia,3,
+sisca,2110,Reserve Bank of Australia,4,TABLE 15. Financial Assets and Liabilities of the Central Bank ($ million)
+sisca,212,Depository Corporations,3,
+sisca,2121,Authorised Deposit-Taking Institutions,4,TABLE 16. Financial Assets and Liabilities of Authorised Deposit taking Institutions ($ million)
+sisca,2129,Other Broad Money Institutions,4,TABLE 17. Financial Assets and Liabilities of Other Broad Money Institutions ($ million)
+sisca,213,Superannuation Funds and Insurance Corporations,3,
+sisca,2131,Superannuation Funds,4,TABLE 18. Financial Assets and Liabilities of Pension Funds ($ million)
+sisca,2132,Life Insurance Corporations,4,TABLE 20. Financial Assets and Liabilities of Life Insurance Corporations ($ million)
+sisca,2133,Non-Life Insurance Corporations,4,TABLE 21. Financial Assets and Liabilities of Non-Life Insurance Corporations ($ million)
+sisca,214,Financial Investment Funds,3,
+sisca,2141,Money Market Funds,4,TABLE 22. Financial Assets and Liabilities of Money Market Financial Investment Funds ($ million)
+sisca,2142,Non-Money Market Financial Investment Funds,4,TABLE 23. Financial Assets and Liabilities of Non-Money Market Financial Investment Funds ($ million)
+sisca,219,Securitisers and Other Financial Intermediaries,3,
+sisca,2191,Securitisers,4,TABLE 25. Financial Assets and Liabilities of Securitisers ($ million)
+sisca,2199,Other Financial Intermediaries,4,TABLE 26. Financial Assets and Liabilities of Other Financial Corporations ($ million)
+sisca,22,Financial Auxiliaries,2,
+sisca,220,Financial Auxiliaries,3,
+sisca,2200,Financial Auxiliaries,4,x
+sisca,23,Captive Financial Institutions and Money Lenders,2,
+sisca,230,Captive Financial Institutions and Money Lenders,3,
+sisca,2301,Central Borrowing Authorities,4,TABLE 24. Financial Assets and Liabilities of Central Borrowing Authorities ($ million)
+sisca,2309,Money Lenders and Other Captive Financial Institutions,4,x
+sisca,3,General Government,1,
+sisca,30,General Government,2,
+sisca,300,General Government,3,
+sisca,3000,General Government,4,TABLE 30. Financial Assets and Liabilities of National General Government ($ million)
+sisca,3000,General Government,4,TABLE 32. Financial Assets and Liabilities of State and Local General Government ($ million)
+sisca,4,Households,1,
+sisca,40,Households,2,
+sisca,400,Households,3,
+sisca,4000,Households,4,TABLE 34. Financial Assets and Liabilities of Households ($ million)
+sisca,5,Non-Profit Institutions Serving Households,1,
+sisca,50,Non-Profit Institutions Serving Households,2,
+sisca,500,Non-Profit Institutions Serving Households,3,
+sisca,5000,Non-Profit Institutions Serving Households,4,x
+sisca,6,Rest of the World,1,
+sisca,60,Rest of the World,2,
+sisca,600,Rest of the World,3,
+sisca,6000,Rest of the World,4,TABLE 38. Financial Assets and Liabilities of Rest of World ($ million)

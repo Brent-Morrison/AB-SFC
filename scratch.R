@@ -432,7 +432,7 @@ sum(cons[, "q"]) == (sum(prod[, "q"]) - sum(prod[, "qpost"]))
 
 # --------------------------------------------------------------------------------------------------------------------------
 #
-# Australian data
+# Get Australian data
 # https://www.abs.gov.au/statistics/economy/national-accounts/australian-national-accounts-finance-and-wealth/
 # https://www.abs.gov.au/statistics/classifications/standard-economic-sector-classifications-australia-sesca/latest-release
 # https://www.abs.gov.au/ausstats/abs@.nsf/0/7b54bcb1c8f409ebca25768400828278/$FILE/P5204_2009_Time_Series_Workbook_Listing.xls
@@ -506,18 +506,34 @@ write.csv(ind, "./data/ana_index.csv")
 write.csv(inst, "./data/ana_instruments.csv")
 
 
-
+# --------------------------------------------------------------------------------------------------------------------------
+#
 # Read data 
+# 
+# --------------------------------------------------------------------------------------------------------------------------
+
+library(readxl)
+library(dplyr)
+library(tidyr)
+
 dat <- read.csv("./data/ana_data.csv")
 ind <- read.csv("./data/ana_index.csv")
 ana_tables <- read.csv("./data/abs_ana_tables.csv")
+ref <- read.csv("./data/ana_ref.csv")
+rem <- " borrowed by:| held by:| accepted by:| issued by:| drawn by:"
 
 
 d <- dat %>% 
   left_join(ind, by = join_by(series_id)) %>% 
-  left_join(ana_tables, by = join_by(file_no)) %>% 
-  select(series_id:counterparty, data_type, file_no:sector) %>% 
-  mutate(instrument_clean = gsub(rem, "", instrument))
+  left_join(ana_tables[, c("type","sisca","sub_sector","file_no")], by = join_by(file_no)) %>% 
+  left_join(ref[ref$lookup_ref == "cp_ss", c("ref1", "ref2")], by = join_by(counterparty == ref2)) %>% 
+  select(series_id:counterparty, data_type, file_no:sub_sector, cp_sub_sector = ref1) %>% 
+  mutate(instrument_clean1 = gsub(rem, "", instrument)) %>% 
+  left_join(ref[ref$lookup_ref == "instrument", c("ref1", "ref2")], by = join_by(instrument_clean1 == ref1)) %>% 
+  rename(instrument_clean = ref2) %>% 
+  filter(sub_sector != "na") %>% 
+  select(-c("stock_flow","instrument", "instrument_clean1")) %>% 
+  mutate(amount = if_else(balance_type == "Assets", amount, -amount))
 
 # Unique instruments / standardise name across counterparty
 inst_a <- sort(unique(d$instrument_clean[d$balance_type == "Assets"], ))
@@ -526,14 +542,13 @@ inst_l <- sort(unique(d$instrument_clean[d$balance_type == "Liabilities"], ))
 d1 <- d %>%
   filter(
     balance_type %in% c("Assets", "Liabilities"),
-    sector == "household",
+    sub_sector == "household",
     data_type == "STOCK_CLOSE",
     counterparty != "Total (Counterparty sectors)",
     date == "2024-12-01"
   ) %>% 
-  mutate(amount = if_else(balance_type == "Assets", amount, -amount)) %>% 
   select(balance_type, instrument_clean, counterparty, amount) %>% 
-  pivot_wider(names_from = counterparty, values_from = amount) %>% 
+  pivot_wider(names_from = counterparty, values_from = amount, values_fn = sum) %>% 
   arrange(balance_type)
 
 d2 <- d %>%
@@ -544,9 +559,8 @@ d2 <- d %>%
     counterparty != "Total (Counterparty sectors)",
     date == "2024-12-01"
   ) %>% 
-  mutate(amount = if_else(balance_type == "Assets", amount, -amount)) %>% 
   select(balance_type, instrument_clean, counterparty, amount) %>% 
-  pivot_wider(names_from = counterparty, values_from = amount) %>% 
+  pivot_wider(names_from = counterparty, values_from = amount, values_fn = sum) %>% 
   arrange(balance_type)
 
 d3 <- d %>%
@@ -557,7 +571,15 @@ d3 <- d %>%
     counterparty != "Total (Counterparty sectors)",
     date == "2024-12-01"
   ) %>% 
-  mutate(amount = if_else(balance_type == "Assets", amount, -amount)) %>% 
   select(balance_type, instrument_clean, counterparty, amount) %>% 
-  pivot_wider(names_from = counterparty, values_from = amount) %>% 
+  pivot_wider(names_from = counterparty, values_from = amount, values_fn = sum) %>% 
   arrange(balance_type)
+
+
+# Checks
+d_temp <- d[(d$date == '2024-12-01' & d$data_type == 'STOCK_CLOSE' & 
+             d$counterparty != "Total (Counterparty sectors)" & d$sub_sector != "na" & 
+             d$amount != 0 & d$balance_type != "Change in/Net financial position") &
+             !is.na(d$instrument_clean), ]
+d_temp %>% group_by(instrument_clean) %>% summarise(amount = sum(amount))
+
