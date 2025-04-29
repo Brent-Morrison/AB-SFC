@@ -535,9 +535,18 @@ d <- dat %>%
   select(-c("stock_flow","instrument", "instrument_clean1")) %>% 
   mutate(amount = if_else(balance_type == "Assets", amount, -amount))
 
+
 # Unique instruments / standardise name across counterparty
-inst_a <- sort(unique(d$instrument_clean[d$balance_type == "Assets"], ))
-inst_l <- sort(unique(d$instrument_clean[d$balance_type == "Liabilities"], ))
+inst <- sort(unique(d$instrument_clean))
+dates <- sort(unique(d$date))
+
+
+# Checks
+d_temp <- d[(d$date == '2024-12-01' & d$data_type == 'STOCK_CLOSE' & 
+               d$counterparty != "Total (Counterparty sectors)" & d$sub_sector != "na" & 
+               d$amount != 0 & d$balance_type != "Change in/Net financial position") &
+              !is.na(d$series_id), ]
+d_temp %>% group_by(instrument_clean) %>% summarise(amount = sum(amount))  
 
 d1 <- d %>%
   filter(
@@ -545,7 +554,7 @@ d1 <- d %>%
     sub_sector == "household",
     data_type == "STOCK_CLOSE",
     counterparty != "Total (Counterparty sectors)",
-    date == "2024-12-01"
+    date == "2024-06-01"
   ) %>% 
   select(balance_type, instrument_clean, counterparty, amount) %>% 
   pivot_wider(names_from = counterparty, values_from = amount, values_fn = sum) %>% 
@@ -554,32 +563,55 @@ d1 <- d %>%
 d2 <- d %>%
   filter(
     balance_type %in% c("Assets", "Liabilities"),
-    sub_sector == "auth_dep_inst",
+    sub_sector == "household",
     data_type == "STOCK_CLOSE",
     counterparty != "Total (Counterparty sectors)",
-    date == "2024-12-01"
+    date == "2023-06-01"
   ) %>% 
   select(balance_type, instrument_clean, counterparty, amount) %>% 
   pivot_wider(names_from = counterparty, values_from = amount, values_fn = sum) %>% 
   arrange(balance_type)
 
-d3 <- d %>%
-  filter(
-    balance_type %in% c("Assets", "Liabilities"),
-    sub_sector == "central_bank",
-    data_type == "STOCK_CLOSE",
-    counterparty != "Total (Counterparty sectors)",
-    date == "2024-12-01"
-  ) %>% 
-  select(balance_type, instrument_clean, counterparty, amount) %>% 
-  pivot_wider(names_from = counterparty, values_from = amount, values_fn = sum) %>% 
-  arrange(balance_type)
+# Change in net assets - calculated
+sum(d1[, 3:19], na.rm = TRUE) - sum(d2[, 3:19], na.rm = TRUE) 
+
+# Change in net assets - total assets & total liabs line items
+sum( d[(d$date == '2024-06-01' & d$series_id %in% c("A3425684T", "A3431543A")), "amount"] ) - sum( d[(d$date == '2023-06-01' & d$series_id %in% c("A3425684T", "A3431543A")), "amount"] )
+
+# Change in/Net financial position
+sum(d[(d$date %in% c('2023-09-01','2023-12-01','2024-03-01','2024-06-01') & d$series_id == "A3427368A"), "amount"])
 
 
-# Checks
-d_temp <- d[(d$date == '2024-12-01' & d$data_type == 'STOCK_CLOSE' & 
-             d$counterparty != "Total (Counterparty sectors)" & d$sub_sector != "na" & 
-             d$amount != 0 & d$balance_type != "Change in/Net financial position") &
-             !is.na(d$instrument_clean), ]
-d_temp %>% group_by(instrument_clean) %>% summarise(amount = sum(amount))
+
+# Sectoral balance sheet matrix
+mat <- d_temp %>% 
+  filter(!is.na(series_id)) %>% 
+  select(sub_sector, instrument_clean, amount) %>% 
+  arrange(sub_sector, instrument_clean) %>% 
+  pivot_wider(names_from = sub_sector, values_from = amount, values_fn = sum, values_fill = 0)
+
+rowSums(mat[,2:ncol(mat)])
+colSums(mat[,2:ncol(mat)])
+
+
+
+
+
+
+# Mis-matches
+z <- d_temp %>% #filter(instrument_clean == 'Bonds') %>% 
+  mutate(
+    abs_amount = abs(amount), 
+    cp0 = paste0(sub_sector, cp_sub_sector, ""),
+    cp = sapply(cp0, function(x) paste(sort(unlist(strsplit(x, ""))), collapse = ""))
+    ) %>% 
+  group_by(cp, instrument_clean) %>% 
+  mutate(amount1 = sum(amount)) %>% 
+  filter(amount1 != 0)
+
+
+
+
+write.csv(z, "temp.csv")
+z1 <- "broad_money_instsecuritiser"
 
